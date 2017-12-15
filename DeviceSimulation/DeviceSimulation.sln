@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceSimulation", "DeviceSimulation\DeviceSimulation.sfproj", "{2AC48BC1-D08D-49CD-8E35-96796EACA083}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSimulator", "DeviceSimulator\DeviceSimulator.csproj", "{06DEF710-EAF2-42D2-A0F1-906061A15022}"
+EndProject
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceScenarioLoader", "DeviceScenarioLoader\DeviceScenarioLoader.sfproj", "{6F0524BF-B484-4B53-92F9-95651BFE8C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceGenerator", "DeviceGenerator\DeviceGenerator.csproj", "{CEE75A20-E850-4744-B220-A87022F52D8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Debug|x64.ActiveCfg = Debug|x64
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Debug|x64.Build.0 = Debug|x64
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Debug|x64.Deploy.0 = Debug|x64
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Release|x64.ActiveCfg = Release|x64
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Release|x64.Build.0 = Release|x64
+		{2AC48BC1-D08D-49CD-8E35-96796EACA083}.Release|x64.Deploy.0 = Release|x64
+		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Debug|x64.ActiveCfg = Debug|x64
+		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Debug|x64.Build.0 = Debug|x64
+		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Release|x64.ActiveCfg = Release|x64
+		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Release|x64.Build.0 = Release|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.ActiveCfg = Debug|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.Build.0 = Debug|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.Deploy.0 = Debug|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.ActiveCfg = Release|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.Build.0 = Release|x64
+		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.Deploy.0 = Release|x64
+		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|x64.ActiveCfg = Debug|x64
+		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|x64.Build.0 = Debug|x64
+		{CEE75A20-E850-4744-B220-A87022F52D8D}.Release|x64.ActiveCfg = Release|x64
+		{CEE75A20-E850-4744-B220-A87022F52D8D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
+		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
+	EndGlobalSection
+EndGlobal
