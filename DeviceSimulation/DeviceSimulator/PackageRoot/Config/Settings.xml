@@ -7,6 +7,6 @@
 ***REMOVED***
   -->
 ***REMOVED***
-    <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsuite30f57.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=Z5lPBs1VqJc1JZMICvpAVcrNEyYTUFRBedXqGW8uW0s=" />
+    <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
 ***REMOVED***
 ***REMOVED***
