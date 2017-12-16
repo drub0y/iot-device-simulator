@@ -1,10 +1,13 @@
-﻿using Microsoft.ServiceFabric.Services.Communication.Runtime;
+﻿using DeviceSimulation.Common.Models;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Fabric;
 using System.Fabric.Description;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,26 +19,43 @@ namespace DeviceGenerator
     internal sealed class DeviceGenerator
         : StatelessService
     {
-        private readonly Dictionary<string, ApplicationDescription> applicationDescriptions;
+        private readonly Uri applicationPath;
+        private readonly Dictionary<string, StatelessServiceDescription> serviceDescriptions;
         private readonly FabricClient fabricClient;
 
         public DeviceGenerator(StatelessServiceContext context)
             : base(context)
         {
-            applicationDescriptions = new Dictionary<string, ApplicationDescription>()
+            applicationPath = new Uri($"fabric:/DeviceSimulation/Devices");
+
+            var simulations = new List<SimulationItem>()
             {
+                new SimulationItem()
                 {
-                    "Truck",
-                    new ApplicationDescription(new Uri($"fabric:/DeviceSimulation/SimulatedTruck-001"), "DeviceSimulationType", "1.0.0", new NameValueCollection()
-                    {
-                        { "Application_DeviceName", "Truck-001" },
-                        { "Application_DeviceType", "Truck" }
-                    })
-                    {
-                        MaximumNodes = 1
-                    }
+                    Id = Guid.NewGuid(),
+                    DeviceName = "SimulatedTruck-001",
+                    DeviceType = "Truck",
+                    DefinitionPath = "Truck.json",
+                    Interval = 1
                 }
             };
+
+            serviceDescriptions = new Dictionary<string, StatelessServiceDescription>();
+            foreach (var simulation in simulations)
+            {
+                var json = JsonConvert.SerializeObject(simulation);
+                var statelessServiceDescription = new StatelessServiceDescription()
+                {
+                    ApplicationName = new Uri($"fabric:/DeviceSimulation/Devices"),
+                    ServiceName = new Uri($"fabric:/DeviceSimulation/Devices/{simulation.DeviceName}"),
+                    ServiceTypeName = "DeviceSimulatorType",
+                    PartitionSchemeDescription = new SingletonPartitionSchemeDescription(),
+                    InitializationData = Encoding.ASCII.GetBytes(json),
+                    InstanceCount = 1,
+                };
+
+                serviceDescriptions.Add("Truck", statelessServiceDescription);
+            }
 
             fabricClient = new FabricClient();
         }
@@ -58,20 +78,19 @@ namespace DeviceGenerator
             // TODO: Replace the following sample code with your own logic 
             //       or remove this RunAsync override if it's not needed in your service.
 
-            foreach (var kvp in applicationDescriptions)
+            var applicationDescription = new ApplicationDescription(applicationPath, "DeviceSimulationType", "1.0.0", new NameValueCollection());
+            await fabricClient.ApplicationManager.CreateApplicationAsync(applicationDescription);
+
+            foreach (var kvp in serviceDescriptions)
             {
-                await fabricClient.ApplicationManager.CreateApplicationAsync(kvp.Value);
+                await fabricClient.ServiceManager.CreateServiceAsync(kvp.Value);
             }
         }
 
         protected override async Task OnCloseAsync(CancellationToken cancellationToken)
         {
-            foreach (var kvp in applicationDescriptions)
-            {
-                var applicationUri = kvp.Value.ApplicationName;
-                var deleteApplicationDescription = new DeleteApplicationDescription(applicationUri);
-                await fabricClient.ApplicationManager.DeleteApplicationAsync(deleteApplicationDescription);
-            }
+            var deleteApplicationDescription = new DeleteApplicationDescription(applicationPath);
+            await fabricClient.ApplicationManager.DeleteApplicationAsync(deleteApplicationDescription);
 
             await base.OnCloseAsync(cancellationToken);
         }
