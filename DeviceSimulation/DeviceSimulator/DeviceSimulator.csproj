@@ -247,6 +247,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceSimulation.Common\DeviceSimulation.Common.csproj">
+      <Project>{73131f9f-e454-44bb-b345-e6e916b670ff}</Project>
+      <Name>DeviceSimulation.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
