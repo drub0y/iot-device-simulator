@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeviceSimulation.Common\DeviceSimulation.Common.csproj">
-      <Project>{73131f9f-e454-44bb-b345-e6e916b670ff}</Project>
+      <Project>{7a2afcf6-7878-4aaa-b9dd-9d4d37178f17}</Project>
       <Name>DeviceSimulation.Common</Name>
     </ProjectReference>
   </ItemGroup>
