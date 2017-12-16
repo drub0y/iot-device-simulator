@@ -4,6 +4,7 @@ using DeviceSimulator.Extensions;
 using DeviceSimulator.Models;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client;
+using Microsoft.Azure.Devices.Shared;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
@@ -24,9 +25,30 @@ namespace DeviceSimulator
     internal sealed class DeviceSimulator
         : StatelessService
     {
+        private readonly DeviceClient deviceClient;
+        private readonly RegistryManager registryManager;
+        private readonly string deviceName;
+        private readonly string deviceType;
+
         public DeviceSimulator(StatelessServiceContext context)
             : base(context)
-        { }
+        {
+            var configurationPackage = Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var connectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["IoTHubConnectionString"];
+            var connectionString = connectionStringParameter.Value;
+
+            var bytes = Context.InitializationData;
+            var json = Encoding.ASCII.GetString(bytes);
+            var simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
+
+            deviceName = simulationItem.DeviceName;
+            deviceType = simulationItem.DeviceType;
+
+            var deviceConnectionString = $"{connectionString};DeviceId={deviceName}";
+
+            registryManager = RegistryManager.CreateFromConnectionString(connectionString);
+            deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
@@ -47,27 +69,18 @@ namespace DeviceSimulator
             //       or remove this RunAsync override if it's not needed in your service.
             ServiceEventSource.Current.ServiceMessage(Context, $"Reading configuration file");
 
-            var configurationPackage = Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var connectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["IoTHubConnectionString"];
-            var devicePath = Context.ServiceName.AbsolutePath;
-
-            var bytes = Context.InitializationData;
-            var json = Encoding.ASCII.GetString(bytes);
-            var simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
-            var deviceName = simulationItem.DeviceName;
-            var deviceType = simulationItem.DeviceType;
+            await deviceClient.OpenAsync();
 
             ServiceEventSource.Current.ServiceMessage(Context, $"Using device name {deviceName} and device type {deviceType}");
 
-            var device = await RegisterOrFetchDevice(deviceName, connectionStringParameter.Value);
-            var deviceConnectionString = $"{connectionStringParameter.Value};DeviceId={device.Id}";
+            var device = await registryManager.GetDeviceAsync(deviceName);
+            if (device == null)
+            {
+                device = await registryManager.AddDeviceAsync(new Device(deviceName));
+            }
 
             // TODO: these definitions need to come from a configuraiton file...
             var randomizer = new Randomizer();
-            var deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
-            await deviceClient.OpenAsync();
-
-            var twin = await deviceClient.GetTwinAsync();
 
             var truckData = new Faker<TruckData>()
                 .RuleFor(td => td.DeviceId, device.Id)
@@ -75,6 +88,20 @@ namespace DeviceSimulator
                 .RuleFor(td => td.Latitude, f => f.Address.Latitude())
                 .RuleFor(td => td.Longitude, f => f.Address.Longitude())
                 .Generate();
+
+            var twin = await deviceClient.GetTwinAsync();
+            if (twin == null)
+            {
+                twin = new Twin(device.Id);
+            }
+
+            twin.Tags["IsSimulated"] = "Y";
+            twin.Properties.Desired["Latitude"] = truckData.Latitude;
+            twin.Properties.Reported["Latitude"] = truckData.Latitude;
+            twin.Properties.Desired["Longitude"] = truckData.Longitude;
+            twin.Properties.Reported["Longitude"] = truckData.Longitude;
+
+            await registryManager.UpdateTwinAsync(device.Id, twin, "*");
 
             ServiceEventSource.Current.ServiceMessage(Context, $"Sending data for {truckData.DeviceId}");
             while (true)
@@ -89,17 +116,6 @@ namespace DeviceSimulator
                 ServiceEventSource.Current.ServiceMessage(Context, $"Sending message for {truckData.DeviceId}");
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
-        }
-
-        private static async Task<Device> RegisterOrFetchDevice(string deviceName, string connectionString)
-        {
-            var registryManager = RegistryManager.CreateFromConnectionString(connectionString);
-            var device = await registryManager.GetDeviceAsync(deviceName);
-            if (device == null)
-            {
-                device = await registryManager.AddDeviceAsync(new Device(deviceName));
-            }
-            return device;
         }
     }
 }
