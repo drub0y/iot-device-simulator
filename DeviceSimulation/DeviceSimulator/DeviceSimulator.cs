@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using DeviceSimulation.Common.Models;
 using DeviceSimulator.Extensions;
 using DeviceSimulator.Models;
 using Microsoft.Azure.Devices;
@@ -44,20 +45,17 @@ namespace DeviceSimulator
         {
             // TODO: Replace the following sample code with your own logic 
             //       or remove this RunAsync override if it's not needed in your service.
-
-            if (Context.CodePackageActivationContext.ApplicationName.EndsWith("DeviceSimulation")) return;
-
             ServiceEventSource.Current.ServiceMessage(Context, $"Reading configuration file");
 
             var configurationPackage = Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var connectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["IoTHubConnectionString"];
             var devicePath = Context.ServiceName.AbsolutePath;
 
-            var deviceTypeParameter = configurationPackage.Settings.Sections["Application"].Parameters["DeviceType"];
-            var deviceType = deviceTypeParameter.Value;
-
-            var deviceNameParameter = configurationPackage.Settings.Sections["Application"].Parameters["DeviceName"];
-            var deviceName = deviceNameParameter.Value;
+            var bytes = Context.InitializationData;
+            var json = Encoding.ASCII.GetString(bytes);
+            var simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
+            var deviceName = simulationItem.DeviceName;
+            var deviceType = simulationItem.DeviceType;
 
             ServiceEventSource.Current.ServiceMessage(Context, $"Using device name {deviceName} and device type {deviceType}");
 
