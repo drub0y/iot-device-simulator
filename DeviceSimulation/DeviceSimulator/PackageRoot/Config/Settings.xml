@@ -8,5 +8,7 @@
   -->
 ***REMOVED***
     <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
+    <Parameter Name="StorageAccountConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
+    <Parameter Name="StorageAccountContainerName" Value="definitions" />
 ***REMOVED***
 ***REMOVED***
