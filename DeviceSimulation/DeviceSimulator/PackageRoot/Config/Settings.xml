@@ -8,7 +8,10 @@
   -->
   <Section Name="ConnectionStrings">
     <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
-    <Parameter Name="StorageAccountConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
-    <Parameter Name="StorageAccountContainerName" Value="definitions" />
+    <Parameter Name="StorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=jwiotsolution;AccountKey=U6kLHHZJGB1ihoHsjtAQaQQpg/mRs9ODt8jKHRkDs6kjOV8iq2MRNJqmvYrTMRAkuIKbXKWGDrPu7gkKGOPGgA==;EndpointSuffix=core.windows.net" />
+  </Section>
+
+  <Section Name="IoTHub">
+    <Parameter Name="HubName" Value="jwiotsolutionfcdcc" />
   </Section>
 </Settings>

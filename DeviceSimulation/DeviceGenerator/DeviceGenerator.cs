@@ -30,7 +30,7 @@ namespace DeviceGenerator
             applicationPath = new Uri($"fabric:/DeviceSimulation/Devices");
 
             var simulations = new List<SimulationItem>();
-            var simulationIds = Enumerable.Range(1, 1000);
+            var simulationIds = Enumerable.Range(1, 1);
             foreach (var simulationId in simulationIds)
             {
                 var simulationItem = new SimulationItem()
