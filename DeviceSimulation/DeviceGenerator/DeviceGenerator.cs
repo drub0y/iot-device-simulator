@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Fabric;
 using System.Fabric.Description;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,17 +29,20 @@ namespace DeviceGenerator
         {
             applicationPath = new Uri($"fabric:/DeviceSimulation/Devices");
 
-            var simulations = new List<SimulationItem>()
+            var simulations = new List<SimulationItem>();
+            var simulationIds = Enumerable.Range(1, 1000);
+            foreach (var simulationId in simulationIds)
             {
-                new SimulationItem()
+                var simulationItem = new SimulationItem()
                 {
                     Id = Guid.NewGuid(),
-                    DeviceName = "SimulatedTruck-001",
+                    DeviceName = $"SimulatedTruck-{simulationId.ToString("0000")}",
                     DeviceType = "Truck",
                     DefinitionPath = "Truck.json",
                     Interval = 1
-                }
-            };
+                };
+                simulations.Add(simulationItem);
+            }
 
             serviceDescriptions = new Dictionary<string, StatelessServiceDescription>();
             foreach (var simulation in simulations)
@@ -54,7 +58,7 @@ namespace DeviceGenerator
                     InstanceCount = 1,
                 };
 
-                serviceDescriptions.Add("Truck", statelessServiceDescription);
+                serviceDescriptions.Add(simulation.DeviceName, statelessServiceDescription);
             }
 
             fabricClient = new FabricClient();
@@ -80,7 +84,6 @@ namespace DeviceGenerator
 
             var applicationDescription = new ApplicationDescription(applicationPath, "DeviceSimulationType", "1.0.0", new NameValueCollection());
             await fabricClient.ApplicationManager.CreateApplicationAsync(applicationDescription);
-
             foreach (var kvp in serviceDescriptions)
             {
                 await fabricClient.ServiceManager.CreateServiceAsync(kvp.Value);
