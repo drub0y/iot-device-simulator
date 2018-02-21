@@ -14,17 +14,17 @@ namespace DeviceSimulator.Services
         : IDeviceService
     {
         private readonly StatelessServiceContext context;
-        private readonly DeviceClient deviceClient;
+        private readonly string hubname;
+        private  DeviceClient deviceClient;
         private readonly RegistryManager registryManager;
         private readonly string deviceName;
         private readonly string deviceType;
 
-        public DeviceService(StatelessServiceContext context, string connectionString, string deviceName, string deviceType)
+        public DeviceService(StatelessServiceContext context, string connectionString,string hubname, string deviceName, string deviceType)
         {
-            var deviceConnectionString = $"{connectionString};DeviceId={deviceName}";
-
+            this.context = context;
+            this.hubname = hubname;
             registryManager = RegistryManager.CreateFromConnectionString(connectionString);
-            deviceClient = DeviceClient.CreateFromConnectionString(deviceConnectionString, TransportType.Mqtt);
 
             this.deviceName = deviceName;
             this.deviceType = deviceType;
@@ -33,9 +33,6 @@ namespace DeviceSimulator.Services
         public async Task ConnectAsync()
         {
             ServiceEventSource.Current.ServiceMessage(context, $"Reading configuration file");
-
-            await deviceClient.OpenAsync();
-
             ServiceEventSource.Current.ServiceMessage(context, $"Using device name {deviceName} and device type {deviceType}");
 
             var device = await registryManager.GetDeviceAsync(deviceName);
@@ -43,6 +40,10 @@ namespace DeviceSimulator.Services
             {
                 device = await registryManager.AddDeviceAsync(new Device(deviceName));
             }
+
+            var deviceKeyInfo = new DeviceAuthenticationWithRegistrySymmetricKey(deviceName, device.Authentication.SymmetricKey.PrimaryKey);
+            deviceClient = DeviceClient.Create($"{hubname}.azure-devices.net", deviceKeyInfo);
+            await deviceClient.OpenAsync();
         }
 
         public async Task SendEventAsync<T>(T item)

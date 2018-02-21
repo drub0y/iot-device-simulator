@@ -35,12 +35,15 @@ namespace DeviceSimulator
             var storageAccouuntConnectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["StorageAccountConnectionString"];
             var storageAccountConnectionString = storageAccouuntConnectionStringParameter.Value;
 
+            var hubNameParameter = configurationPackage.Settings.Sections["IoTHub"].Parameters["HubName"];
+            var hubName = hubNameParameter.Value;
+
             var bytes = Context.InitializationData;
             var json = Encoding.ASCII.GetString(bytes);
-            var simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
+            simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
 
             var storageService = new StorageService(context, storageAccountConnectionString);
-            deviceService = new DeviceService(context, iotHubConnectionString, simulationItem.DeviceName, simulationItem.DeviceType);
+            deviceService = new DeviceService(context, iotHubConnectionString, hubName, simulationItem.DeviceName, simulationItem.DeviceType);
             scriptEngine = new CSharpScriptEngine(storageService, deviceService);
         }
 
@@ -65,12 +68,23 @@ namespace DeviceSimulator
             // TODO: these definitions need to come from a configuraiton file...
             var randomizer = new Randomizer();
 
-            var truckData = new Faker<TruckData>()
-                .RuleFor(td => td.DeviceId, simulationItem.DeviceName)
-                .RuleFor(td => td.DeviceType, simulationItem.DeviceType)
-                .RuleFor(td => td.Latitude, f => f.Address.Latitude())
-                .RuleFor(td => td.Longitude, f => f.Address.Longitude())
-                .Generate();
+            TruckData truckData =new TruckData();
+            try
+            {
+                truckData = new Faker<TruckData>()
+                    .RuleFor(td => td.DeviceId, simulationItem?.DeviceName ?? "device-unkown")
+                    .RuleFor(td => td.DeviceType, simulationItem?.DeviceType ?? "type-unkown")
+                    .RuleFor(td => td.Latitude, f => f.Address.Latitude())
+                    .RuleFor(td => td.Longitude, f => f.Address.Longitude())
+                    .Generate();
+            }
+            catch (Exception ex)
+            {
+                ServiceEventSource.Current.ServiceMessage(Context, $"{ex.ToString()}");
+            }
+
+            //TODO: Should handle disconnects while sending data in loop
+            await deviceService.ConnectAsync();
 
             ServiceEventSource.Current.ServiceMessage(Context, $"Sending data for {truckData.DeviceId}");
             while (true)
