@@ -6,4 +6,8 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="ConnectionStrings">
+    <Parameter Name="StorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=jwiotsolution;AccountKey=U6kLHHZJGB1ihoHsjtAQaQQpg/mRs9ODt8jKHRkDs6kjOV8iq2MRNJqmvYrTMRAkuIKbXKWGDrPu7gkKGOPGgA==;EndpointSuffix=core.windows.net" />
+  </Section>
+  
 </Settings>

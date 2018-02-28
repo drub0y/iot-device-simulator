@@ -1,0 +1,79 @@
+class MinMax
+{
+	[JsonProperty("min")]
+	public double Minimum { get; set; }
+	[JsonProperty("max")]
+	public double Maximum { get; set; }
+}
+
+class InitialState
+{
+	public MinMax Temperature { get; set; }
+	public MinMax Humidity { get; set; }
+}
+
+class FridgeState
+{
+	public PreviousState PreviousState { get; set; }
+	public CurrentState CurrentState { get; set; }
+}
+
+class PreviousState
+{
+	public double Temperature { get; set; }
+	public double Humidity { get; set; }
+}
+
+class CurrentState
+{
+	public double Temperature { get; set; }
+	public double Humidity { get; set; }
+}
+
+class Fridge
+{
+	public InitialState InitialState { get; set; }
+	public CurrentState CurrentState { get; set; }
+}
+
+double GetRandomNumber(double minimum, double maximum)
+{ 
+	var random = new Random();
+	return random.NextDouble() * (maximum - minimum) + minimum;
+}
+
+var deviceDefinition = JsonConvert.DeserializeObject<Fridge>(DeviceTypeDefinition);
+var deviceState = JsonConvert.DeserializeObject<FridgeState>(DeviceState);
+
+if (deviceState.PreviousState == null)
+{
+	deviceState.PreviousState = new PreviousState()
+	{
+		Temperature = GetRandomNumber(deviceDefinition.InitialState.Temperature.Minimum, deviceDefinition.InitialState.Temperature.Maximum),
+		Humidity = GetRandomNumber(deviceDefinition.InitialState.Humidity.Minimum, deviceDefinition.InitialState.Humidity.Maximum),
+	};
+}
+
+if (deviceState.CurrentState != null)
+{
+	deviceState.PreviousState.Temperature = deviceState.CurrentState.Temperature;
+	deviceState.PreviousState.Humidity = deviceState.CurrentState.Humidity;
+}
+else
+	deviceState.CurrentState = new CurrentState();
+
+var random = new Random();
+var oddEven = random.Next(1, 2) % 2 == 0;
+if (oddEven)
+	deviceState.CurrentState.Temperature = deviceState.PreviousState.Temperature + 1;
+else
+	deviceState.CurrentState.Temperature = deviceState.PreviousState.Temperature - 1;
+
+oddEven = random.Next(1, 2) % 2 == 0;
+if (oddEven)
+	deviceState.CurrentState.Humidity = deviceState.PreviousState.Humidity + 1;
+else
+	deviceState.CurrentState.Humidity = deviceState.PreviousState.Humidity - 1;
+
+var json = JsonConvert.SerializeObject(deviceState);
+return json;

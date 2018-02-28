@@ -1,14 +1,24 @@
-﻿using Bogus;
+﻿using CodeEngine.CSharp;
+using CodeEngine.CSharp.Interfaces;
+using CodeEngine.FSharp;
+using CodeEngine.FSharp.Interfaces;
+using CodeEngine.Interfaces;
+using CodeEngine.JavaScript;
+using CodeEngine.JavaScript.Interfaces;
+using CodeEngine.Python;
+using CodeEngine.Python.Interfaces;
+using CodeEngine.Services;
 using DeviceSimulation.Common.Models;
 using DeviceSimulator.Interfaces;
-using DeviceSimulator.Models;
 using DeviceSimulator.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +31,8 @@ namespace DeviceSimulator
     internal sealed class DeviceSimulator
         : StatelessService
     {
-        private readonly IScriptEngine scriptEngine;
+        private readonly IServiceProvider serviceProvider;
         private readonly SimulationItem simulationItem;
-        private readonly IDeviceService deviceService;
 
         public DeviceSimulator(StatelessServiceContext context)
             : base(context)
@@ -32,9 +41,6 @@ namespace DeviceSimulator
             var iotHubConnectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["IoTHubConnectionString"];
             var iotHubConnectionString = iotHubConnectionStringParameter.Value;
 
-            var storageAccouuntConnectionStringParameter = configurationPackage.Settings.Sections["ConnectionStrings"].Parameters["StorageAccountConnectionString"];
-            var storageAccountConnectionString = storageAccouuntConnectionStringParameter.Value;
-
             var hubNameParameter = configurationPackage.Settings.Sections["IoTHub"].Parameters["HubName"];
             var hubName = hubNameParameter.Value;
 
@@ -42,9 +48,24 @@ namespace DeviceSimulator
             var json = Encoding.ASCII.GetString(bytes);
             simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
 
-            var storageService = new StorageService(context, storageAccountConnectionString);
-            deviceService = new DeviceService(context, iotHubConnectionString, hubName, simulationItem.DeviceName, simulationItem.DeviceType);
-            scriptEngine = new CSharpScriptEngine(storageService, deviceService);
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddScoped<IFileService, FileService>();
+            serviceCollection.AddScoped<ICSharpService<string>, CSharpService<string>>();
+            serviceCollection.AddScoped<IFSharpService<string>, FSharpService<string>>();
+            serviceCollection.AddScoped<IPythonService<string>, PythonService<string>>();
+            serviceCollection.AddScoped<IJavaScriptService<string>, JavaScriptService<string>>();
+            serviceCollection.AddScoped<ICodeService<FileInfo, string>, CodeService<FileInfo, string>>();
+            serviceCollection.AddScoped<IScriptService, CSharpScriptService>();
+            serviceCollection.AddScoped<ILoggingService, LoggingService>((sp) =>
+            {
+                return new LoggingService(context);
+            });
+            serviceCollection.AddScoped<IDeviceService, DeviceService>((sp) =>
+            {
+                var loggingService = sp.GetRequiredService<ILoggingService>();
+                return new DeviceService(context, loggingService, iotHubConnectionString, hubName, simulationItem.DeviceName, simulationItem.DeviceType);
+            });
+            serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         /// <summary>
@@ -66,51 +87,8 @@ namespace DeviceSimulator
             //       or remove this RunAsync override if it's not needed in your service.
 
             // TODO: these definitions need to come from a configuraiton file...
-            var randomizer = new Randomizer();
-
-            TruckData truckData =new TruckData();
-            try
-            {
-                truckData = new Faker<TruckData>()
-                    .RuleFor(td => td.DeviceId, simulationItem?.DeviceName ?? "device-unkown")
-                    .RuleFor(td => td.DeviceType, simulationItem?.DeviceType ?? "type-unkown")
-                    .RuleFor(td => td.Latitude, f => f.Address.Latitude())
-                    .RuleFor(td => td.Longitude, f => f.Address.Longitude())
-                    .Generate();
-            }
-            catch (Exception ex)
-            {
-                ServiceEventSource.Current.ServiceMessage(Context, $"{ex.ToString()}");
-            }
-
-            //TODO: Should handle disconnects while sending data in loop
-            await deviceService.ConnectAsync();
-
-            ServiceEventSource.Current.ServiceMessage(Context, $"Sending data for {truckData.DeviceId}");
-            while (true)
-            {
-                // Would want better values here...
-                truckData.Latitude = randomizer.Double(55, 80);
-                truckData.Longitude = randomizer.Double(60, 90);
-
-                var messageJson = JsonConvert.SerializeObject(truckData);
-                var encodedMessage = Encoding.ASCII.GetBytes(messageJson);
-                await deviceService.SendEventAsync(truckData);
-
-                ServiceEventSource.Current.ServiceMessage(Context, $"Sending message for {truckData.DeviceId}");
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
+            var scriptEngine = serviceProvider.GetRequiredService<IScriptService>();
+            await scriptEngine.RunScriptAsync(simulationItem, cancellationToken);
         }
-    }
-
-    public class TruckData
-    {
-        public string DeviceId { get; set; }
-
-        public string DeviceType { get; set; }
-
-        public double Latitude { get; set; }
-
-        public double Longitude { get; set; }
     }
 }

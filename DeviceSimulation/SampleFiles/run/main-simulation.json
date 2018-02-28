@@ -1,0 +1,8 @@
+[
+    {
+        "Id": "a2da9567-ff24-4ab8-8b24-795a77139328",
+        "DeviceName": "SimulatedFridge-0001",
+        "DeviceType": "Fridge",
+        "Interval": 5
+    }
+]
