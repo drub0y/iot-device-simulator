@@ -44,8 +44,24 @@
     <IsServiceFabricServiceProject>true</IsServiceFabricServiceProject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netstandard" />
     <Reference Include="Bogus, Version=21.0.4.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
       <HintPath>..\packages\Bogus.21.0.4\lib\net40\Bogus.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeEngine.1.0.0\lib\netstandard2.0\CodeEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeEngine.CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeEngine.CSharp.1.0.0\lib\netstandard2.0\CodeEngine.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeEngine.FSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeEngine.FSharp.1.0.0\lib\netstandard2.0\CodeEngine.FSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeEngine.JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeEngine.JavaScript.1.0.0\lib\netstandard2.0\CodeEngine.JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeEngine.Python, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CodeEngine.Python.1.0.0\lib\netstandard2.0\CodeEngine.Python.dll</HintPath>
     </Reference>
     <Reference Include="DotNetty.Buffers, Version=0.4.6.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetty.Buffers.0.4.6\lib\net45\DotNetty.Buffers.dll</HintPath>
@@ -65,6 +81,15 @@
     <Reference Include="DotNetty.Transport, Version=0.4.6.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetty.Transport.0.4.6\lib\net45\DotNetty.Transport.dll</HintPath>
     </Reference>
+    <Reference Include="FSharp.Compiler.Service, Version=17.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Compiler.Service.17.0.1\lib\net45\FSharp.Compiler.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Jint, Version=0.0.0.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jint.2.11.58\lib\net451\Jint.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jurassic.2.2.2\lib\net35\Jurassic.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.Amqp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Amqp.2.0.6\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
     </Reference>
@@ -80,6 +105,18 @@
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=2.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.6.1\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.6.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Scripting, Version=2.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Scripting.2.6.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=2.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Scripting.Common.2.6.1\lib\netstandard1.3\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
@@ -89,6 +126,9 @@
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
@@ -153,6 +193,10 @@
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
@@ -161,6 +205,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.FileVersionInfo.4.3.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.StackTrace, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.StackTrace.4.3.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
     </Reference>
     <Reference Include="System.Fabric, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=AMD64">
       <HintPath>..\packages\Microsoft.ServiceFabric.5.7.198\lib\net45\System.Fabric.dll</HintPath>
@@ -200,6 +250,9 @@
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Reflection.Metadata, Version=1.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.4.2\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
       <Private>True</Private>
@@ -221,6 +274,15 @@
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.3.0\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Thread, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
@@ -229,6 +291,15 @@
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XPath.4.3.0\lib\net46\System.Xml.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XPath.XDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
+    </Reference>
     <Reference Include="Validation, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
       <HintPath>..\packages\Validation.2.2.8\lib\dotnet\Validation.dll</HintPath>
     </Reference>
@@ -236,15 +307,15 @@
   <ItemGroup>
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Interfaces\IDeviceService.cs" />
-    <Compile Include="Interfaces\IScriptEngine.cs" />
-    <Compile Include="Interfaces\IStorageService.cs" />
-    <Compile Include="Models\CSharpScriptEngine.cs" />
+    <Compile Include="Interfaces\ILoggingService.cs" />
+    <Compile Include="Interfaces\IScriptService.cs" />
+    <Compile Include="Services\CSharpScriptService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeviceSimulator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ServiceEventSource.cs" />
     <Compile Include="Services\DeviceService.cs" />
-    <Compile Include="Services\StorageService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PackageRoot\Config\Settings.xml" />
@@ -259,6 +330,10 @@
       <Project>{7a2afcf6-7878-4aaa-b9dd-9d4d37178f17}</Project>
       <Name>DeviceSimulation.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

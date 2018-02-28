@@ -6,7 +6,6 @@ using System.Fabric;
 using System.Text;
 using System.Threading.Tasks;
 using Message = Microsoft.Azure.Devices.Client.Message;
-using TransportType = Microsoft.Azure.Devices.Client.TransportType;
 
 namespace DeviceSimulator.Services
 {
@@ -14,15 +13,20 @@ namespace DeviceSimulator.Services
         : IDeviceService
     {
         private readonly StatelessServiceContext context;
+        private readonly ILoggingService loggingService;
+
         private readonly string hubname;
-        private  DeviceClient deviceClient;
+        private DeviceClient deviceClient;
         private readonly RegistryManager registryManager;
+
         private readonly string deviceName;
         private readonly string deviceType;
 
-        public DeviceService(StatelessServiceContext context, string connectionString,string hubname, string deviceName, string deviceType)
+        public DeviceService(StatelessServiceContext context, ILoggingService loggingService, string connectionString, string hubname, string deviceName, string deviceType)
         {
             this.context = context;
+            this.loggingService = loggingService;
+
             this.hubname = hubname;
             registryManager = RegistryManager.CreateFromConnectionString(connectionString);
 
@@ -32,8 +36,7 @@ namespace DeviceSimulator.Services
 
         public async Task ConnectAsync()
         {
-            ServiceEventSource.Current.ServiceMessage(context, $"Reading configuration file");
-            ServiceEventSource.Current.ServiceMessage(context, $"Using device name {deviceName} and device type {deviceType}");
+            loggingService.LogInfo($"Using device name {deviceName} and device type {deviceType}");
 
             var device = await registryManager.GetDeviceAsync(deviceName);
             if (device == null)
