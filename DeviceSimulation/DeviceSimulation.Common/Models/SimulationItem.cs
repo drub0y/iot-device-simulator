@@ -5,27 +5,37 @@ namespace DeviceSimulation.Common.Models
     public class SimulationItem
     {
         /// <summary>
-        /// A unique identifier
+        /// A unique identifier.
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// The name of the instance of this device
+        /// The name of the instance of this device.
         /// </summary>
         public string DeviceName { get; set; }
 
         /// <summary>
-        /// The device type like Truck
+        /// The device type like Truck.
         /// </summary>
         public string DeviceType { get; set; }
 
         /// <summary>
-        /// The location of the json file
+        /// The contents of the json initial state file.
         /// </summary>
-        public string DefinitionPath { get; set; }
+        public string InitialState { get; set; }
 
         /// <summary>
-        /// This is the time in seconds
+        /// The contents of the script file.
+        /// </summary>
+        public string ScriptFile { get; set; }
+
+        /// <summary>
+        /// The language of the script file.
+        /// </summary>
+        public ScriptLanguage ScriptLanguage { get; set; }
+
+        /// <summary>
+        /// This is the time in seconds.
         /// </summary>
         public int Interval { get; set; }
     }

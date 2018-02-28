@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceSimulation", "DeviceSimulation\DeviceSimulation.sfproj", "{2AC48BC1-D08D-49CD-8E35-96796EACA083}"
 EndProject
@@ -16,6 +16,23 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C407237-BC4F-4D71-904A-49DAFA7AED42}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleFiles", "SampleFiles", "{ED4D2D63-0040-49D8-AEA0-F00126A2471C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "run", "run", "{DB51703B-148A-414B-A64F-F370352F9F06}"
+	ProjectSection(SolutionItems) = preProject
+		SampleFiles\run\main-simulation.json = SampleFiles\run\main-simulation.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{2AAF7CF3-3AF2-40EE-BCAD-71DEC73CC391}"
+	ProjectSection(SolutionItems) = preProject
+		SampleFiles\scripts\Fridge.cscript = SampleFiles\scripts\Fridge.cscript
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "state", "state", "{BE8E9980-2AED-4F40-9A11-B0EF27F1AFA8}"
+	ProjectSection(SolutionItems) = preProject
+		SampleFiles\state\Fridge.json = SampleFiles\state\Fridge.json
 	EndProjectSection
 EndProject
 Global
@@ -72,8 +89,14 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED4D2D63-0040-49D8-AEA0-F00126A2471C} = {0C407237-BC4F-4D71-904A-49DAFA7AED42}
+		{DB51703B-148A-414B-A64F-F370352F9F06} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
+		{2AAF7CF3-3AF2-40EE-BCAD-71DEC73CC391} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
+		{BE8E9980-2AED-4F40-9A11-B0EF27F1AFA8} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 	EndGlobalSection
 EndGlobal
