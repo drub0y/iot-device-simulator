@@ -16,6 +16,7 @@ class FridgeState
 {
 	public PreviousState PreviousState { get; set; }
 	public CurrentState CurrentState { get; set; }
+	public InitialState InitialState { get; set; }
 }
 
 class PreviousState
@@ -30,27 +31,20 @@ class CurrentState
 	public double Humidity { get; set; }
 }
 
-class Fridge
-{
-	public InitialState InitialState { get; set; }
-	public CurrentState CurrentState { get; set; }
-}
-
 double GetRandomNumber(double minimum, double maximum)
-{ 
+{
 	var random = new Random();
 	return random.NextDouble() * (maximum - minimum) + minimum;
 }
 
-var deviceDefinition = JsonConvert.DeserializeObject<Fridge>(DeviceTypeDefinition);
 var deviceState = JsonConvert.DeserializeObject<FridgeState>(DeviceState);
 
 if (deviceState.PreviousState == null)
 {
 	deviceState.PreviousState = new PreviousState()
 	{
-		Temperature = GetRandomNumber(deviceDefinition.InitialState.Temperature.Minimum, deviceDefinition.InitialState.Temperature.Maximum),
-		Humidity = GetRandomNumber(deviceDefinition.InitialState.Humidity.Minimum, deviceDefinition.InitialState.Humidity.Maximum),
+		Temperature = GetRandomNumber(deviceState.InitialState.Temperature.Minimum, deviceState.InitialState.Temperature.Maximum),
+		Humidity = GetRandomNumber(deviceState.InitialState.Humidity.Minimum, deviceState.InitialState.Humidity.Maximum),
 	};
 }
 
@@ -75,5 +69,6 @@ if (oddEven)
 else
 	deviceState.CurrentState.Humidity = deviceState.PreviousState.Humidity - 1;
 
-var json = JsonConvert.SerializeObject(deviceState);
+var json = JsonConvert.SerializeObject(deviceState.CurrentState);
 return json;
+	
