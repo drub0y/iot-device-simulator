@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
@@ -33,6 +34,10 @@ namespace DeviceSimulator
     {
         private readonly IServiceProvider serviceProvider;
         private readonly SimulationItem simulationItem;
+
+        private readonly IDeviceService deviceService;
+        private readonly ILoggingService loggingService;
+        private readonly ICSharpService<string> csharpService;
 
         public DeviceSimulator(StatelessServiceContext context)
             : base(context)
@@ -55,7 +60,6 @@ namespace DeviceSimulator
             serviceCollection.AddScoped<IPythonService<string>, PythonService<string>>();
             serviceCollection.AddScoped<IJavaScriptService<string>, JavaScriptService<string>>();
             serviceCollection.AddScoped<ICodeService<FileInfo, string>, CodeService<FileInfo, string>>();
-            serviceCollection.AddScoped<IScriptService, CSharpScriptService>();
             serviceCollection.AddScoped<ILoggingService, LoggingService>((sp) =>
             {
                 return new LoggingService(context);
@@ -66,6 +70,11 @@ namespace DeviceSimulator
                 return new DeviceService(context, loggingService, iotHubConnectionString, hubName, simulationItem.DeviceName, simulationItem.DeviceType);
             });
             serviceProvider = serviceCollection.BuildServiceProvider();
+
+            // TODO: Move to Program.cs
+            deviceService = serviceProvider.GetRequiredService<IDeviceService>();
+            loggingService = serviceProvider.GetRequiredService<ILoggingService>();
+            csharpService = serviceProvider.GetRequiredService<ICSharpService<string>>();
         }
 
         /// <summary>
@@ -87,8 +96,27 @@ namespace DeviceSimulator
             //       or remove this RunAsync override if it's not needed in your service.
 
             // TODO: these definitions need to come from a configuraiton file...
-            var scriptEngine = serviceProvider.GetRequiredService<IScriptService>();
-            await scriptEngine.RunScriptAsync(simulationItem, cancellationToken);
+            //#if DEBUG
+            //            Thread.Sleep(10000);
+            //            Debugger.Break();
+            //#endif
+
+            var interval = simulationItem.Interval * 1000;
+            dynamic initialState = JObject.Parse(simulationItem.InitialState);
+
+            await deviceService.ConnectAsync();
+            while (true)
+            {
+                string json = JsonConvert.SerializeObject(initialState);
+
+                var currentState = await csharpService.ExecuteAsync(simulationItem.ScriptFile, json);
+                await deviceService.SendEventAsync(currentState);
+
+                loggingService.LogInfo($"Sent data for {simulationItem.DeviceName} of type {simulationItem.DeviceType}");
+                initialState.PreviousState = JObject.Parse(currentState);
+
+                await Task.Delay(TimeSpan.FromSeconds(simulationItem.Interval), cancellationToken);
+            }
         }
     }
 }
