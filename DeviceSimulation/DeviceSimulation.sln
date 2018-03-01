@@ -7,10 +7,6 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceSimulation", "DeviceS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSimulator", "DeviceSimulator\DeviceSimulator.csproj", "{06DEF710-EAF2-42D2-A0F1-906061A15022}"
 EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceScenarioLoader", "DeviceScenarioLoader\DeviceScenarioLoader.sfproj", "{6F0524BF-B484-4B53-92F9-95651BFE8C11}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceGenerator", "DeviceGenerator\DeviceGenerator.csproj", "{CEE75A20-E850-4744-B220-A87022F52D8D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSimulation.Common", "DeviceSimulation.Common\DeviceSimulation.Common.csproj", "{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C407237-BC4F-4D71-904A-49DAFA7AED42}"
@@ -34,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "state", "state", "{BE8E9980
 	ProjectSection(SolutionItems) = preProject
 		SampleFiles\state\Fridge.json = SampleFiles\state\Fridge.json
 	EndProjectSection
+EndProject
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceScenarioLoader", "DeviceScenarioLoader\DeviceScenarioLoader.sfproj", "{567BAEA4-1F28-4A83-B7C8-99B93399438C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceGenerator", "DeviceGenerator\DeviceGenerator.csproj", "{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,23 +60,6 @@ Global
 		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Release|Any CPU.ActiveCfg = Release|x64
 		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Release|x64.ActiveCfg = Release|x64
 		{06DEF710-EAF2-42D2-A0F1-906061A15022}.Release|x64.Build.0 = Release|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|Any CPU.Build.0 = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|Any CPU.Deploy.0 = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.ActiveCfg = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.Build.0 = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Debug|x64.Deploy.0 = Debug|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|Any CPU.ActiveCfg = Release|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.ActiveCfg = Release|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.Build.0 = Release|x64
-		{6F0524BF-B484-4B53-92F9-95651BFE8C11}.Release|x64.Deploy.0 = Release|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|Any CPU.Build.0 = Debug|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|x64.ActiveCfg = Debug|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Debug|x64.Build.0 = Debug|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Release|Any CPU.ActiveCfg = Release|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Release|x64.ActiveCfg = Release|x64
-		{CEE75A20-E850-4744-B220-A87022F52D8D}.Release|x64.Build.0 = Release|x64
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Debug|Any CPU.Build.0 = Debug|x64
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -85,6 +68,24 @@ Global
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Release|x64.ActiveCfg = Release|Any CPU
 		{7A2AFCF6-7878-4AAA-B9DD-9D4D37178F17}.Release|x64.Build.0 = Release|Any CPU
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|Any CPU.Build.0 = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|x64.ActiveCfg = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|x64.Build.0 = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Debug|x64.Deploy.0 = Debug|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Release|Any CPU.ActiveCfg = Release|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Release|x64.ActiveCfg = Release|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Release|x64.Build.0 = Release|x64
+		{567BAEA4-1F28-4A83-B7C8-99B93399438C}.Release|x64.Deploy.0 = Release|x64
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Debug|Any CPU.Build.0 = Debug|x64
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Debug|x64.Build.0 = Debug|Any CPU
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Release|x64.ActiveCfg = Release|Any CPU
+		{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,7 +97,7 @@ Global
 		{BE8E9980-2AED-4F40-9A11-B0EF27F1AFA8} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
+		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
 	EndGlobalSection
 EndGlobal
