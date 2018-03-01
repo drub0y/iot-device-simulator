@@ -17,4 +17,7 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceSimulation.Common\DeviceSimulation.Common.csproj" />
+  </ItemGroup>
 </Project>
