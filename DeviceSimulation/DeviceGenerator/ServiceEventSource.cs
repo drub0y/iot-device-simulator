@@ -65,15 +65,16 @@ namespace DeviceGenerator
         }
 
         [NonEvent]
-        public void ServiceMessage(StatelessServiceContext serviceContext, string message, params object[] args)
+        public void ServiceMessage(ServiceContext serviceContext, string message, params object[] args)
         {
             if (this.IsEnabled())
             {
+
                 string finalMessage = string.Format(message, args);
                 ServiceMessage(
                     serviceContext.ServiceName.ToString(),
                     serviceContext.ServiceTypeName,
-                    serviceContext.InstanceId,
+                    GetReplicaOrInstanceId(serviceContext),
                     serviceContext.PartitionId,
                     serviceContext.CodePackageActivationContext.ApplicationName,
                     serviceContext.CodePackageActivationContext.ApplicationTypeName,
@@ -155,6 +156,22 @@ namespace DeviceGenerator
         #endregion
 
         #region Private methods
+        private static long GetReplicaOrInstanceId(ServiceContext context)
+        {
+            StatelessServiceContext stateless = context as StatelessServiceContext;
+            if (stateless != null)
+            {
+                return stateless.InstanceId;
+            }
+
+            StatefulServiceContext stateful = context as StatefulServiceContext;
+            if (stateful != null)
+            {
+                return stateful.ReplicaId;
+            }
+
+            throw new NotSupportedException("Context type not supported.");
+        }
 #if UNSAFE
         private int SizeInBytes(string s)
         {

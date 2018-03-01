@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets=";ValidateMSBuildFiles">
   <Import Project="..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.4\build\Microsoft.VisualStudio.Azure.Fabric.Application.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.4\build\Microsoft.VisualStudio.Azure.Fabric.Application.props')" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>6f0524bf-b484-4b53-92f9-95651bfe8c11</ProjectGuid>
+    <ProjectGuid>567baea4-1f28-4a83-b7c8-99b93399438c</ProjectGuid>
     <ProjectVersion>2.0</ProjectVersion>
     <MinToolsVersion>1.5</MinToolsVersion>
     <SupportedMSBuildNuGetPackageVersion>1.6.4</SupportedMSBuildNuGetPackageVersion>
@@ -29,10 +29,10 @@
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeviceGenerator\DeviceGenerator.csproj" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <ProjectReference Include="..\DeviceGenerator\DeviceGenerator.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>
