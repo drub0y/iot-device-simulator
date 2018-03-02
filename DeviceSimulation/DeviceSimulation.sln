@@ -25,15 +25,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "state", "state", "{BE8E9980
 		SampleFiles\state\Fridge.json = SampleFiles\state\Fridge.json
 	EndProjectSection
 EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceScenarioLoader", "DeviceScenarioLoader\DeviceScenarioLoader.sfproj", "{567BAEA4-1F28-4A83-B7C8-99B93399438C}"
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceScenarioLoaderApp", "DeviceScenarioLoader\DeviceScenarioLoaderApp.sfproj", "{567BAEA4-1F28-4A83-B7C8-99B93399438C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceGenerator", "DeviceGenerator\DeviceGenerator.csproj", "{C0BA30CD-8D07-45C8-AFC4-7F4300CB848F}"
 EndProject
-Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceSimulation", "DeviceSimulation\DeviceSimulation.sfproj", "{ABA57BD1-C000-4F31-97C8-8423D01A9A17}"
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "DeviceSimulationApp", "DeviceSimulation\DeviceSimulationApp.sfproj", "{ABA57BD1-C000-4F31-97C8-8423D01A9A17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceSimulator", "DeviceSimulator\DeviceSimulator.csproj", "{05A8C23B-7DA6-4A64-830D-F644457B5238}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSimulation.Common", "DeviceSimulation.Common\DeviceSimulation.Common.csproj", "{4AF64336-4459-445C-AA41-529957BC8AED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceSimulation.Common", "DeviceSimulation.Common\DeviceSimulation.Common.csproj", "{4AF64336-4459-445C-AA41-529957BC8AED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,7 +98,7 @@ Global
 		{BE8E9980-2AED-4F40-9A11-B0EF27F1AFA8} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
 	EndGlobalSection
 EndGlobal
