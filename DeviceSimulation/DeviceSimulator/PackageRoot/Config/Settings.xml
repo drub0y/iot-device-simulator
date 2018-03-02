@@ -1,11 +1,5 @@
 ***REMOVED***
 ***REMOVED***
-  <!-- Add your custom configuration sections and parameters here -->
-  <!--
-  <Section Name="MyConfigSection">
-    <Parameter Name="MyParameter" Value="Value1" />
-***REMOVED***
-  -->
 ***REMOVED***
     <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=VRJngwdQjHXiLh4qLiwk0C+sBJZWNCLy+AEpt3SIQTQ=" />
 ***REMOVED***
