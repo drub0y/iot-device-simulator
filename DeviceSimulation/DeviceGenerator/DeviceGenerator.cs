@@ -1,26 +1,31 @@
-﻿using DeviceGenerator.Interfaces;
-using DeviceGenerator.Services;
-using DeviceSimulation.Common.Models;
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Runtime;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Fabric;
 using System.Fabric.Description;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DeviceGenerator.Interfaces;
+using DeviceGenerator.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Runtime;
+using Newtonsoft.Json;
+using DeviceSimulation.Common.Models;
 
 namespace DeviceGenerator
 {
     /// <summary>
-    /// An instance of this class is created for each service instance by the Service Fabric runtime.
+    /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class DeviceGenerator
-        : StatelessService
+    internal sealed class DeviceGenerator : StatelessService
     {
+
         private readonly Uri applicationPath;
         private readonly IStorageService storageService;
 
@@ -30,6 +35,7 @@ namespace DeviceGenerator
         public DeviceGenerator(StatelessServiceContext context)
             : base(context)
         {
+
             applicationPath = new Uri($"fabric:/DeviceSimulation/Devices");
 
             var configurationPackage = Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
@@ -37,29 +43,33 @@ namespace DeviceGenerator
             var storageAccountConnectionString = storageAccouuntConnectionStringParameter.Value;
             storageService = new StorageService(storageAccountConnectionString);
 
-            //var simulations = new List<SimulationItem>();
-            //var simulationIds = Enumerable.Range(1, 1);
-            //foreach (var simulationId in simulationIds)
-            //{
-            //    var simulationItem = new SimulationItem()
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        DeviceName = $"SimulatedTruck-{simulationId.ToString("0000")}",
-            //        DeviceType = "Truck",
-            //        Interval = 5
-            //    };
-            //    simulations.Add(simulationItem);
-            //}
-
         }
 
         /// <summary>
-        /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
+        /// Optional override to create listeners (like tcp, http) for this service instance.
         /// </summary>
-        /// <returns>A collection of listeners.</returns>
+        /// <returns>The collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new ServiceInstanceListener[0];
+            return new ServiceInstanceListener[]
+            {
+                new ServiceInstanceListener(serviceContext =>
+                    new KestrelCommunicationListener(serviceContext, "ServiceEndpoint", (url, listener) =>
+                    {
+                        ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel on {url}");
+
+                        return new WebHostBuilder()
+                                    .UseKestrel()
+                                    .ConfigureServices(
+                                        services => services
+                                            .AddSingleton<StatelessServiceContext>(serviceContext))
+                                    .UseContentRoot(Directory.GetCurrentDirectory())
+                                    .UseStartup<Startup>()
+                                    .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                                    .UseUrls(url)
+                                    .Build();
+                    }))
+            };
         }
 
         /// <summary>
