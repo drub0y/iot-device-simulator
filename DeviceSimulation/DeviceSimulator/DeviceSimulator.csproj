@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="22.0.3" />
-    <PackageReference Include="CodeEngine" Version="1.0.0" />
+    <PackageReference Include="CodeEngine" Version="1.0.2" />
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.5.1" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.6.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />

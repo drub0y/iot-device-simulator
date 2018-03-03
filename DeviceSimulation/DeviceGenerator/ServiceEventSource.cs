@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace DeviceGenerator
 {
@@ -158,14 +154,12 @@ namespace DeviceGenerator
         #region Private methods
         private static long GetReplicaOrInstanceId(ServiceContext context)
         {
-            StatelessServiceContext stateless = context as StatelessServiceContext;
-            if (stateless != null)
+            if (context is StatelessServiceContext stateless)
             {
                 return stateless.InstanceId;
             }
 
-            StatefulServiceContext stateful = context as StatefulServiceContext;
-            if (stateful != null)
+            if (context is StatefulServiceContext stateful)
             {
                 return stateful.ReplicaId;
             }
