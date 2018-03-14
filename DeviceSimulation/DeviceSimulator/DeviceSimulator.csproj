@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="22.0.3" />
+    <PackageReference Include="Bogus" Version="22.0.5" />
     <PackageReference Include="CodeEngine" Version="1.0.0" />
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.5.1" />
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.6.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
     <PackageReference Include="Microsoft.ServiceFabric" Version="6.1.467" />
     <PackageReference Include="Microsoft.ServiceFabric.Data" Version="3.0.467" />
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.0.467" />
