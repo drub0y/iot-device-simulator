@@ -29,7 +29,8 @@ namespace DeviceSimulator
     /// <summary>
     /// An instance of this class is created for each service instance by the Service Fabric runtime.
     /// </summary>
-    internal sealed class DeviceSimulator : StatelessService
+    internal sealed class DeviceSimulator
+        : StatelessService
     {
         private readonly IServiceProvider serviceProvider;
         private readonly SimulationItem simulationItem;
@@ -51,7 +52,7 @@ namespace DeviceSimulator
             var bytes = Context.InitializationData;
             var json = Encoding.ASCII.GetString(bytes);
             simulationItem = JsonConvert.DeserializeObject<SimulationItem>(json);
-  
+
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddScoped<IFileService, FileService>();
             serviceCollection.AddScoped<ICSharpService<string>, CSharpService<string>>();
