@@ -14,9 +14,6 @@
     "adminPassword": {
       "value": "P@$$W0rd!"
     },
-    "loadBalancedAppPort": {
-      "value": 25565
-    },
     "iotHubName": {
       "value": "jwdshub"
     },

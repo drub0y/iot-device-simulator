@@ -36,13 +36,6 @@
         "description": "Remote desktop user password. Must be a strong password"
       }
     },
-    "loadBalancedAppPort": {
-      "type": "int",
-      "defaultValue": 80,
-      "metadata": {
-        "description": "Input endpoint1 for the application to use. Replace it with what your application uses."
-      }
-    },
     "clusterProtectionLevel": {
       "type": "string",
       "allowedValues": [
@@ -326,25 +319,6 @@
               },
               "protocol": "Tcp"
             }
-          },
-          {
-            "name": "AppPortLBRule",
-            "properties": {
-              "backendAddressPool": {
-                "id": "[variables('lbPoolID0')]"
-              },
-              "backendPort": "[parameters('loadBalancedAppPort')]",
-              "enableFloatingIP": false,
-              "frontendIPConfiguration": {
-                "id": "[variables('lbIPConfig0')]"
-              },
-              "frontendPort": "[parameters('loadBalancedAppPort')]",
-              "idleTimeoutInMinutes": 5,
-              "probe": {
-                "id": "[concat(variables('lbID0'),'/probes/AppPortProbe')]"
-              },
-              "protocol": "Tcp"
-            }
           }
         ],
         "probes": [
@@ -365,15 +339,6 @@
               "port": "[variables('nt0fabricHttpGatewayPort')]",
               "protocol": "Tcp"
             }
-          },
-          {
-            "name": "AppPortProbe",
-            "properties": {
-              "intervalInSeconds": 5,
-              "numberOfProbes": 2,
-              "port": "[parameters('loadBalancedAppPort')]",
-              "protocol": "Tcp"
-            }
           }
         ],
         "inboundNatPools": [
@@ -386,18 +351,6 @@
               },
               "frontendPortRangeEnd": 4500,
               "frontendPortRangeStart": 3389,
-              "protocol": "Tcp"
-            }
-          },
-          {
-            "name": "ApplicationNatPool",
-            "properties": {
-              "backendPort": "[parameters('loadBalancedAppPort')]",
-              "frontendIPConfiguration": {
-                "id": "[variables('lbIPConfig0')]"
-              },
-              "frontendPortRangeEnd": 36000,
-              "frontendPortRangeStart": "[parameters('loadBalancedAppPort')]",
               "protocol": "Tcp"
             }
           }
