@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Section Name="ConnectionStrings">
-    <Parameter Name="StorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=jwiotsolution;AccountKey=U6kLHHZJGB1ihoHsjtAQaQQpg/mRs9ODt8jKHRkDs6kjOV8iq2MRNJqmvYrTMRAkuIKbXKWGDrPu7gkKGOPGgA==;EndpointSuffix=core.windows.net" />
+    <Parameter Name="StorageAccountConnectionString" Value="" />
   </Section>
 </Settings>
