@@ -2,11 +2,11 @@
 
 ## Installing and Running the Simulator
 
-To install the application you can click on the "Deploy to Azure" button below and enter in values for the parameters. 
+To install the application you can click on the "Deploy to Azure" button below and enter in values for the parameters.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 
-After the environment is provisioned, we can go to the Azure Storage Account and upload the required files. 
+After the environment is provisioned, we can go to the Azure Storage Account and upload the required files.
 In a folder called 'run' create a main-simulation.json file with a similar definition to the json here.
 
 ``` json
@@ -116,3 +116,41 @@ Then we would create a folder called state that would hold our initial device st
 ```
 
 Once the files are there, Service Fabric will pick them up and start sending device data to your IoT Hub.
+
+## Configuring and Runing the Simulator
+
+We will need to change a few configuration files in order for the system to connect properly.
+
+The first configuration file is under iot-device-simulator\src\DeviceSimulation\DeviceGenerator\PackageRoot\Config\Settings.xml
+This will contain the connection string for our Azure Storage Account.
+
+``` xml
+<?xml version="1.0" encoding="utf-8" ?>
+***REMOVED***
+***REMOVED***
+    <Parameter Name="StorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=jwiotsolution;AccountKey=...;EndpointSuffix=core.windows.net" />
+***REMOVED***
+***REMOVED***
+```
+
+The second configuration file is under iot-device-simulator\src\DeviceSimulation\DeviceSimulator\PackageRoot\Config\Settings.xml
+This configuration file contains the value to connect to the IoT Hub that we want our simulated devices to connect to.
+
+``` xml
+<?xml version="1.0" encoding="utf-8" ?>
+***REMOVED***
+***REMOVED***
+    <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=..." />
+***REMOVED***
+
+  <Section Name="IoTHub">
+    <Parameter Name="HubName" Value="jwiotsolutionfcdcc" />
+***REMOVED***
+***REMOVED***
+```
+
+Then the application should run by pressing F5
+
+## Contribution Guidelines
+
+TBD
