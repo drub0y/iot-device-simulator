@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C407237-BC4F-4D71-904A-49DAFA7AED42}"
-	ProjectSection(SolutionItems) = preProject
-		..\README.md = ..\README.md
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleFiles", "SampleFiles", "{ED4D2D63-0040-49D8-AEA0-F00126A2471C}"
 EndProject
@@ -98,7 +95,7 @@ Global
 		{BE8E9980-2AED-4F40-9A11-B0EF27F1AFA8} = {ED4D2D63-0040-49D8-AEA0-F00126A2471C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
+		SolutionGuid = {948E18A9-E088-41C4-B526-61ABAFF644FB}
 	EndGlobalSection
 EndGlobal
