@@ -126,11 +126,11 @@ This will contain the connection string for our Azure Storage Account.
 
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>
-***REMOVED***
-***REMOVED***
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Section Name="ConnectionStrings">
     <Parameter Name="StorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=jwiotsolution;AccountKey=...;EndpointSuffix=core.windows.net" />
-***REMOVED***
-***REMOVED***
+  </Section>
+</Settings>
 ```
 
 The second configuration file is under iot-device-simulator\src\DeviceSimulation\DeviceSimulator\PackageRoot\Config\Settings.xml
@@ -138,15 +138,15 @@ This configuration file contains the value to connect to the IoT Hub that we wan
 
 ``` xml
 <?xml version="1.0" encoding="utf-8" ?>
-***REMOVED***
-***REMOVED***
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Section Name="ConnectionStrings">
     <Parameter Name="IoTHubConnectionString" Value="HostName=jwiotsolutionfcdcc.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=..." />
-***REMOVED***
+  </Section>
 
   <Section Name="IoTHub">
     <Parameter Name="HubName" Value="jwiotsolutionfcdcc" />
-***REMOVED***
-***REMOVED***
+  </Section>
+</Settings>
 ```
 
 Then the application should run by pressing F5
