@@ -35,7 +35,7 @@ namespace DeviceSimulator
         private readonly IServiceProvider serviceProvider;
         private readonly SimulationItem simulationItem;
 
-        private readonly IDeviceService deviceService;
+        private readonly IDeviceStore deviceStore;
         private readonly ILoggingService loggingService;
         private readonly ICSharpService<string> csharpService;
 
@@ -64,15 +64,23 @@ namespace DeviceSimulator
             {
                 return new LoggingService(context);
             });
-            serviceCollection.AddScoped<IDeviceService, DeviceService>((sp) =>
+
+            serviceCollection.AddScoped<IDeviceStore, DeviceStore>((sp) =>
             {
-                var loggingService = sp.GetRequiredService<ILoggingService>();
-                return new DeviceService(context, loggingService, iotHubConnectionString, hubName, simulationItem.DeviceName, simulationItem.DeviceType);
+                var deviceStore = new DeviceStore();
+                for (int i = simulationItem.DeviceStartRange; i <= simulationItem.DeviceEndRange; i++)
+                {
+                    var loggingService = sp.GetRequiredService<ILoggingService>();
+                    var deviceName = simulationItem.DevicePrefix + '-' + i;
+                    var device = new DeviceService(context, loggingService, iotHubConnectionString, hubName, deviceName, simulationItem.DeviceType);
+                    deviceStore.Devices().Add(device);
+                }
+                return deviceStore;
             });
+
             serviceProvider = serviceCollection.BuildServiceProvider();
 
             // TODO: Move to Program.cs
-            deviceService = serviceProvider.GetRequiredService<IDeviceService>();
             loggingService = serviceProvider.GetRequiredService<ILoggingService>();
             csharpService = serviceProvider.GetRequiredService<ICSharpService<string>>();
         }
@@ -103,17 +111,34 @@ namespace DeviceSimulator
 
             var interval = simulationItem.Interval * 1000;
             dynamic initialState = JObject.Parse(simulationItem.InitialState);
+            var deviceState = new Dictionary<string, dynamic>();
 
-            await deviceService.ConnectAsync();
+            foreach (var device in deviceStore.Devices())
+            {
+                try
+                {
+                    await device.ConnectAsync();
+                    deviceState.Add(device.DeviceName, deviceState);
+                    Thread.Sleep(100);
+                }
+                catch (Exception ex)
+                {
+                    loggingService.LogInfo("Error: " + ex.Message);
+                    throw ex;
+                }
+            }
+
             while (true)
             {
-                string json = JsonConvert.SerializeObject(initialState);
+                foreach (var device in deviceStore.Devices())
+                {
+                    string json = JsonConvert.SerializeObject(deviceState[device.DeviceName]);
 
-                var currentState = await csharpService.ExecuteAsync(simulationItem.ScriptFile, json);
-                await deviceService.SendEventAsync(currentState);
+                    var currentState = await csharpService.ExecuteAsync(simulationItem.ScriptFile, json);
+                    await device.SendEventAsync(currentState, simulationItem.MessageType);
 
-                loggingService.LogInfo($"Sent data for {simulationItem.DeviceName} of type {simulationItem.DeviceType}");
-                initialState.PreviousState = JObject.Parse(currentState);
+                    deviceState[device.DeviceName] = JObject.Parse(currentState);
+                }
 
                 await Task.Delay(TimeSpan.FromSeconds(simulationItem.Interval), cancellationToken);
             }
