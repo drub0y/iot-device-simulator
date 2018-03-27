@@ -2,7 +2,9 @@
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client;
 using Newtonsoft.Json;
+using System;
 using System.Fabric;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using Message = Microsoft.Azure.Devices.Client.Message;
@@ -34,6 +36,8 @@ namespace DeviceSimulator.Services
             this.deviceType = deviceType;
         }
 
+        public string DeviceName { get { return deviceName; } }
+
         public async Task ConnectAsync()
         {
             loggingService.LogInfo($"Using device name {deviceName} and device type {deviceType}");
@@ -49,11 +53,17 @@ namespace DeviceSimulator.Services
             await deviceClient.OpenAsync();
         }
 
-        public async Task SendEventAsync<T>(T item)
+        public async Task SendEventAsync<T>(T item, string messageType)
         {
             var json = JsonConvert.SerializeObject(item);
             var bytes = Encoding.UTF8.GetBytes(json);
             var message = new Message(bytes);
+            message.Properties.Add("messageType", messageType);
+            message.Properties.Add("correlationId", Guid.NewGuid().ToString());
+            message.Properties.Add("parentCorrelationId", Guid.NewGuid().ToString());
+            message.Properties.Add("createdDateTime", DateTime.UtcNow.ToString("u", DateTimeFormatInfo.InvariantInfo));
+            message.Properties.Add("deviceId", deviceName);
+
             await deviceClient.SendEventAsync(message);
         }
     }
