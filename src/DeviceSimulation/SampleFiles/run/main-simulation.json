@@ -1,8 +1,13 @@
 [
-    {
-        "Id": "a2da9567-ff24-4ab8-8b24-795a77139328",
-        "DeviceName": "SimulatedFridge-0001",
-        "DeviceType": "Fridge",
-        "Interval": 5
-    }
+  {
+    "Id": "a2da9567-ff24-4ab8-8b24-795a77139328",
+    "DevicePrefix": "SimulatedFridge-0001",
+    "DeviceType": "Fridge",
+    "NumberOfDevices": 10000,
+    "MessageType": "Telemetry",
+    "Ramp": 1,
+    "RampDelay": 20,
+    "BatchSize": 100,
+    "Interval": 5
+  }
 ]
