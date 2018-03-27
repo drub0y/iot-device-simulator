@@ -84,33 +84,54 @@ namespace DeviceGenerator
             var simulationJson = await storageService.FetchFileAsync("run", "main-simulation.json");
             var simulations = JsonConvert.DeserializeObject<IEnumerable<SimulationItem>>(simulationJson);
 
+            var ramp = 1;
+            var rampDelay = 1;
+
             serviceDescriptions = new Dictionary<string, StatelessServiceDescription>();
             foreach (var simulation in simulations)
             {
                 simulation.ScriptFile = await storageService.FetchFileAsync("scripts", $"{simulation.DeviceType}.cscript");
                 simulation.ScriptLanguage = ScriptLanguage.CSharp;
                 simulation.InitialState = await storageService.FetchFileAsync("state", $"{simulation.DeviceType}.json");
+                var batchStart = 1;
+                var batchSize = 10;
 
+                batchSize = simulation.BatchSize ?? batchSize;
+                var batches = Enumerable.Range(simulation.DeviceOffset ?? 1, (simulation.NumberOfDevices + (simulation.DeviceOffset ?? 1)) / batchSize);
+
+                var serviceName = $"{simulation.DeviceStartRange}-{simulation.DeviceEndRange}";
                 var json = JsonConvert.SerializeObject(simulation);
                 var statelessServiceDescription = new StatelessServiceDescription()
                 {
                     ApplicationName = new Uri($"fabric:/DeviceSimulation/Devices"),
-                    ServiceName = new Uri($"fabric:/DeviceSimulation/Devices/{simulation.DeviceName}"),
+                    ServiceName = new Uri($"fabric:/DeviceSimulation/Devices/{serviceName}"),
                     ServiceTypeName = "DeviceSimulatorType",
                     PartitionSchemeDescription = new SingletonPartitionSchemeDescription(),
                     InitializationData = Encoding.ASCII.GetBytes(json),
                     InstanceCount = 1,
                 };
 
-                serviceDescriptions.Add(simulation.DeviceName, statelessServiceDescription);
+                serviceDescriptions.Add(serviceName, statelessServiceDescription);
+                batchStart += batchSize;
             }
 
             fabricClient = new FabricClient();
             var applicationDescription = new ApplicationDescription(applicationPath, "DeviceSimulationType", "1.0.0", new NameValueCollection());
             await fabricClient.ApplicationManager.CreateApplicationAsync(applicationDescription);
+
+            int i = 1;
             foreach (var kvp in serviceDescriptions)
             {
                 await fabricClient.ServiceManager.CreateServiceAsync(kvp.Value);
+
+                // Stagger Service Start Times
+                if (i % ramp == 0 || i == serviceDescriptions.Count())
+                {
+                    System.Diagnostics.Trace.WriteLine($"Waiting {rampDelay * 1000} s to start up next batch of applications.");
+                    Thread.Sleep(rampDelay * 1000);
+                }
+
+                i++;
             }
         }
 
